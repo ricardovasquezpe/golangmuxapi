@@ -1,8 +1,8 @@
 package app
 
 import (
+	"golangmuxapi/app/handler"
 	"log"
-	"muxgoapi/app/handler"
 	"net/http"
 
 	"github.com/gorilla/mux"

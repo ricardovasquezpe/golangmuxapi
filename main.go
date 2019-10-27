@@ -1,6 +1,6 @@
 package main
 
-import "muxgoapi/app"
+import "golangmuxapi/app"
 
 func main() {
 	app := &app.App{}

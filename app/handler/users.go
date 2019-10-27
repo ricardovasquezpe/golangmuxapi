@@ -2,7 +2,7 @@ package handler
 
 import (
 	"encoding/json"
-	"muxgoapi/app/model"
+	"golangmuxapi/app/model"
 	"net/http"
 )
 
