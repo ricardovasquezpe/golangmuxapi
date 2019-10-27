@@ -2,6 +2,7 @@ package app
 
 import (
 	"golangmuxapi/app/handler"
+	"golangmuxapi/app/middle"
 	"log"
 	"net/http"
 
@@ -14,11 +15,20 @@ type App struct {
 
 func (a *App) Initialize() {
 	a.Router = mux.NewRouter()
-	a.setRouters()
+	a.setRoutersv1()
 }
 
-func (a *App) setRouters() {
-	a.Router.HandleFunc("/users", handler.GetAllUsers).Methods("GET")
+func (a *App) setVersionApi(v string) {
+	a.Router.PathPrefix("/api/" + v).Subrouter()
+}
+
+func (a *App) setRoutersv1() {
+	apiv1 := a.Router.PathPrefix("/api/v1").Subrouter()
+	apiv1.Use(middle.MiddlewareOne)
+	apiv1.HandleFunc("/users", handler.GetAllUsers).Methods("GET")
+	apiv1.HandleFunc("/createuser", handler.CreateUser).Methods("POST")
+	apiv1.HandleFunc("/getuser/{name}", handler.GetUser).Methods("GET")
+	apiv1.HandleFunc("/searchuser", handler.SearchUser).Methods("GET")
 }
 
 func (a *App) Run(host string) {

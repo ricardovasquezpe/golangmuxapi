@@ -2,12 +2,15 @@ package handler
 
 import (
 	"encoding/json"
+	"fmt"
 	"golangmuxapi/app/model"
 	"net/http"
+
+	"github.com/gorilla/mux"
 )
 
 func GetAllUsers(w http.ResponseWriter, r *http.Request) {
-	//w.Header().Set("Content-Type", "application/json")
+	w.Header().Set("Content-Type", "application/json")
 
 	responseUsers := model.ResponseUser{}
 	user := model.User{}
@@ -22,4 +25,25 @@ func GetAllUsers(w http.ResponseWriter, r *http.Request) {
 		panic(err)
 	}
 	w.Write([]byte(response))
+}
+
+func CreateUser(w http.ResponseWriter, r *http.Request) {
+	user := model.User{}
+	decoder := json.NewDecoder(r.Body)
+	if err := decoder.Decode(&user); err != nil {
+		return
+	}
+}
+
+func GetUser(w http.ResponseWriter, r *http.Request) {
+	vars := mux.Vars(r)
+	name := vars["name"]
+	fmt.Println(name)
+}
+
+func SearchUser(w http.ResponseWriter, r *http.Request) {
+	querys := r.URL.Query()
+	param1 := querys.Get("param1")
+	param2 := querys.Get("param2")
+	fmt.Println(param1, param2)
 }
